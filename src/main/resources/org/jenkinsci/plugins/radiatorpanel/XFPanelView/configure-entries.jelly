@@ -1,0 +1,89 @@
+	<!-- 
+	Thanks to Mark Howard and his work on the Radiator View Plugin from which this was based.
+ -->
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+	xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+	xmlns:i="jelly:fmt">
+	
+	<SCRIPT type="text/javascript" src="${rootURL}/plugin/xfpanel/sorting.js" />
+	<script type="text/javascript" src="${rootURL}/plugin/xfpanel/jscolor/jscolor.js"></script>
+	<td colspan="3" style="font-weight:bold;" >Job options <hr /> </td>
+	
+
+	
+	<!-- Borrowed from -->
+	<style type="text/css">
+		/* Undo some styles from the master stylesheet */
+		.checklist li { background: none; padding-left: 0; }
+		
+		/* CSS for checklists */
+		.checklist {
+			border: 1px solid #ccc;
+			list-style: none;
+			height: 20em;
+			overflow: auto;
+			width: 20em;
+		}
+		.checklist, .checklist li { margin: 0; padding: 0; list-style: none;}
+		.checklist label { padding: 0px 0.0em 0 0; text-indent: -25px; display: inline;}
+		* html .checklist label { height: 1%; }
+	</style>
+
+	<f:entry title="Jobs" field="jobSelection">
+	<!-- Get a priority sorted list of jobs -->
+	<j:invoke method="getPrioritySortedJobs" var="prioJobs" on="${it}">
+	    <j:arg type="java.util.Collection" value="${app.items}" />
+	</j:invoke>
+	<table>
+		<tr>
+			<td colspan="2">
+				Available jobs
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<ul class="checklist" id="allJobs">
+					<j:forEach var="job" varStatus="status" items="${prioJobs}">
+						<li id="${job.name}">
+
+						<!-- Hack to fix the checkbox checked bug -->
+						<j:if test="${it.contains(job)}">
+							<input name="${job.name}" type="checkbox" 
+								checked="true"
+								 onClick="UpdateJobOptions('${job.name}');"/>
+						</j:if>
+						<j:if test="${!it.contains(job)}">
+							<input name="${job.name}" type="checkbox" 
+								onClick="UpdateJobOptions('${job.name}');"/>
+						</j:if>
+
+						<label onClick="UpdateJobOptions('${job.name}');">
+							<span id="selectedJob-${job.name}">${job.name}</span>
+						</label>
+						<input type="hidden" id="${job.name}_priority" name="${job.name}_priority" value="${status.index}" />
+						</li>
+					</j:forEach>
+				</ul>
+			</td>
+			<td>
+				<button type="button" onClick="ChangePriority('up');">Up</button>
+				<button type="button" onClick="ChangePriority('down');">Down</button>
+			</td>
+		</tr>
+	</table>
+	</f:entry>
+
+	<f:entry title="${%Show Job descriptions}" field="showDescription">
+		<f:checkbox id="xfpanel.showDescription" name="showDescription" checked="${it.showDescription}" value="true"/>
+	</f:entry>
+	<f:entry title="${%Show test info for Jobs without tests}" field="showZeroTestCounts">
+		<f:checkbox id="xfpanel.showZeroTestCounts" name="showZeroTestCounts" checked="${it.showZeroTestCounts}" value="true"/>
+	</f:entry>
+	<f:entry title="${%Show time from the last build}" field="showTimeStamp">
+		<f:checkbox id="xfpanel.showTimeStamp" name="showTimeStamp" checked="${it.showTimeStamp}" value="true"/>
+	</f:entry>
+	<f:entry title="${%Show warning icon}" field="showWarningIcon">
+		<f:checkbox id="xfpanel.showWarningIcon" name="showWarningIcon" checked="${it.showWarningIcon}" value="true"/>
+	</f:entry>
+
+</j:jelly>

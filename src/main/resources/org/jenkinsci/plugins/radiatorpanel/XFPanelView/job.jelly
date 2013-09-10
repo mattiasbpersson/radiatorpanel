@@ -1,0 +1,26 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+
+	<j:set var="height" value="${from.guiHeight}px" />
+	<j:set var="jobFont" value="${from.guiJobFont}px" />
+	<j:set var="failFont" value="${from.guiFailFont}px" />
+	<j:set var="infoFont" value="${from.guiInfoFont}px" />
+	<j:set var="buildFont" value="${from.guiBuildFont}px" />
+	<j:set var="claimFont" value="${from.guiClaimFont}px" />
+	<j:set var="claimTopMargin" value="${from.guiFailFont*0.2}px" />
+
+	<!-- JOB div -->
+	<a href="${job.url}" style="font-style:normal; font-weight:bold;">
+		<div align="center" style="margin: 4px; background-color:${job.backgroundColor}; -moz-border-radius:10px; width:${width}; height:${height}; float: ${float}" tooltip="${job.name}">
+			
+			<!-- Left side bar -->
+			<div style="width: 80%; height:100%; white-space: nowrap; overflow:hidden;  color: ${job.color};" >
+
+				<!-- Topic bar -->
+				<div class="fadeHiddenText" style ="font-size: ${jobFont};">
+					<span><u>${job.name}</u></span>
+				</div>
+			
+			</div>
+		</div>
+	</a>
+</j:jelly>
