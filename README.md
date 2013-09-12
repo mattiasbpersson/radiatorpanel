@@ -5,6 +5,11 @@ For now, this is some kind of copy of https://github.com/jenkinsci/xfpanel-plugi
 
 Aim is to make it more adapable and to learn how to create jenkins plugins.
 
+TODO
+=============
+* Jelly Config för jobs in seperate file
+* Display multiple rows which may contain same jobs.
+* CSS/classes to make view more likeables
 
 jenkins plugin development
 ==========================
